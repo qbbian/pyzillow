@@ -29,13 +29,10 @@ It is developed on Python 2.7 but should work on earlier versions. We have not t
 
 Installation
 ------------
-You can install this package using pip:
+Since this is a modified version from the original pyzillow, use the following
+command to do a customized install:
 
-    pip install pyzillow
-
-or download the source from https://github.com/hanneshapke/pyzillow and install
-
-    python setup.py install
+    sudo python setup.py install
 
 
 Usage of the GetDeepSearchResults API
