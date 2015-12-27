@@ -2,6 +2,7 @@ from pyzillow.pyzillow import ZillowWrapper, GetDeepSearchResults
 import datetime
 import numpy as np
 import pandas as pd
+import time
 
 # Gmail module courtesy of Kutuma's blog
 # http://kutuma.blogspot.com/2007/08/sending-emails-via-gmail-with-python.html
@@ -13,8 +14,11 @@ from email.MIMEText import MIMEText
 from email import Encoders
 import os
 
-gmail_user = "john.doe@gmail.com"
+gmail_user = "machinelearning2k@gmail.com"
 gmail_pwd = "justletmein"
+recipient_email = "qbbian@gmail.com"
+sample_period_in_days = 1
+sample_period_in_secs = sample_period_in_days * 24 * 3600
 
 def mail(to, subject, text, attach):
    msg = MIMEMultipart()
@@ -57,16 +61,19 @@ addressList = [('14825 NW Fawnlily Dr', '97229'),
     ('11080 SW Oneida Street', '97062')]
 
 zillow_data = ZillowWrapper(MY_ZILLOW_API_KEY)
-for address in addressList:
-    street = address[0]
-    zipcode = address[1]
-    deep_search_response = zillow_data.get_deep_search_results(street, zipcode, True)
-    result = GetDeepSearchResults(deep_search_response)
-    print "Estimated monthy rent for %s is $%s" % (address, result.rentzestimate_amount)
-    rent_estimate_pd.loc[len(rent_estimate_pd) + 1] = np.array([todays_date, address, result.rentzestimate_amount])
 
-rent_estimate_pd.to_csv(filename, index=False)
-mail("qbbian@gmail.com",
-    "Hello from python!",
-    "This is a email sent with python",
-    filename)
+while True:
+    for address in addressList:
+        street = address[0]
+        zipcode = address[1]
+        deep_search_response = zillow_data.get_deep_search_results(street, zipcode, True)
+        result = GetDeepSearchResults(deep_search_response)
+        print "Estimated monthy rent for %s is $%s" % (address, result.rentzestimate_amount)
+        rent_estimate_pd.loc[len(rent_estimate_pd) + 1] = np.array([todays_date, address, result.rentzestimate_amount])
+
+    rent_estimate_pd.to_csv(filename, index=False)
+    mail(recipient_email,
+        "Automated Zillow Email Alert",
+        "This is an email created and sent by PyZillow. Cheers!",
+        filename)
+    time.sleep(sample_period_in_secs)

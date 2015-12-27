@@ -23,8 +23,13 @@ Install pandas:
 1. Run:
 pip install -U --user --force pandas
 
-To enable automatic email alert from this Python script, please change
-your settings to allow less secure apps to access your account:
-
+Enable Automatic Email Notification
+A Gmail test account (machinelearning2k@gmail.com)has been created
+for the purpose of sending out automated email notification. The
+security level of this account has also been lowered to enable access
+from apps such as this one:
 https://support.google.com/accounts/answer/6010255
+
+Simply change the recipient's email address in the program to get
+automated notifcation from this application.
 
